@@ -320,6 +320,11 @@
       transform: translateY(0);
     }
 
+    #noMessage:not([hidden]) {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     body.celebrate .letter {
       animation: letterGlow 1100ms ease-in-out both;
     }
@@ -1305,6 +1310,7 @@
 
           <p class="message" id="successMessage" hidden>One hundred points to Gryffindor! I'm looking forward to
             spending time with you.</p>
+          <p class="message" id="noMessage" hidden>Thanks!</p>
         </section>
 
         <div class="invitationShell__front" aria-hidden="true"></div>
@@ -1669,6 +1675,12 @@
       });
 
       noBtn.addEventListener('click', () => {
+        if (noBtn.disabled) return;
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+
+        document.getElementById('noMessage').hidden = false;
+
         // Notify via Google Apps Script (silent, fire-and-forget)
         fetch('https://script.google.com/macros/s/AKfycbz-XJdt7PSKhz11uWC10lp4iWlDgy34hRXibJ8-S_aeAobOdJ5bxb9MClIj_dnKxk32Fw/exec', {
           method: 'POST',
