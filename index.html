@@ -1353,9 +1353,9 @@
       // - Answers are case-insensitive.
       // - Optional: allow multiple acceptable answers using "|" (example: "hermione|hermione granger").
       const VAULT_PROMPTS = [
-        { question: 'What specific species of bird is Harry\'s pet?', answer: 'Snowy Owl|Owl' },
-        { question: 'What is the actual name of Harry\'s pet?', answer: 'Hedwig' },
-        { question: 'Who gave Harry\'s pet for his eleventh birthday?', answer: 'Rubeus Hagrid|Hagrid' },
+        { question: 'What specific species of bird is Harry\'s pet?', answer: 'Snowy Owl|Owl|1' },
+        { question: 'What is the actual name of Harry\'s pet?', answer: 'Hedwig|2' },
+        { question: 'Who gave Harry\'s pet for his eleventh birthday?', answer: 'Rubeus Hagrid|Hagrid|3' },
       ];
 
       const unlocked = [false, false, false];
@@ -1629,8 +1629,11 @@
           const centerX = candidateX + btnRect.width / 2;
           const centerY = candidateY + btnRect.height / 2;
 
-          const farFromPointer = Math.hypot(centerX - avoidX, centerY - avoidY) > 140 || i === tries - 1;
-          const farFromYes = Math.hypot(centerX - yesCenterX, centerY - yesCenterY) > 120 || i === tries - 1;
+          const safePointerDist = Math.min(140, Math.max(60, arenaRect.width / 3));
+          const safeYesDist = Math.min(120, (yesRect.width + btnRect.width) / 2 + 15);
+          
+          const farFromPointer = Math.hypot(centerX - avoidX, centerY - avoidY) > safePointerDist || i === tries - 1;
+          const farFromYes = Math.hypot(centerX - yesCenterX, centerY - yesCenterY) > safeYesDist || i === tries - 1;
 
           if (farFromPointer && farFromYes) {
             x = candidateX;
@@ -1651,9 +1654,9 @@
         const noRect = noBtn.getBoundingClientRect();
         const yesRect = yesBtn.getBoundingClientRect();
 
-        const gap = 40;
+        const gap = Math.min(40, Math.max(10, arenaRect.width - yesRect.width - noRect.width - 20));
         const totalWidth = yesRect.width + gap + noRect.width;
-        const startX = (arenaRect.width - totalWidth) / 2;
+        const startX = Math.max(10, (arenaRect.width - totalWidth) / 2);
 
         yesBtn.style.left = `${startX}px`;
         yesBtn.style.top = `${(arenaRect.height - yesRect.height) / 2}px`;
