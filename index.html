@@ -928,10 +928,118 @@
         transition-delay: 0ms;
       }
     }
+
+    /* Intro Screen */
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background-color: #02040a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: opacity 1.5s ease-in-out, visibility 1.5s;
+    }
+
+    .intro-screen.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-content {
+      position: relative;
+      z-index: 101;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .intro-title {
+      font-weight: normal;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(120, 170, 255, 0.3);
+      margin: 0 0 40px;
+      opacity: 0;
+      animation: slowFadeIn 4s ease-in forwards 1s;
+    }
+
+    @keyframes slowFadeIn {
+      0% { opacity: 0; transform: translateY(10px) scale(0.98); filter: blur(2px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    .intro-btn {
+      appearance: none;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.8);
+      font-family: inherit;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 400ms ease;
+      opacity: 0;
+      animation: slowFadeIn 3s ease-in forwards 3.5s;
+    }
+
+    .intro-btn:hover, .intro-btn:focus-visible {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.8);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.1);
+      outline: none;
+    }
+
+    /* Intro Snow */
+    #snowContainer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .snow-flake {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      background: white;
+      border-radius: 50%;
+      opacity: var(--opacity);
+      filter: blur(1px);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+      animation: snowFall var(--duration) linear infinite;
+      animation-delay: var(--delay);
+      top: -10px;
+      left: var(--left);
+    }
+
+    @keyframes snowFall {
+      0% {
+        transform: translateY(-10px) translateX(0);
+      }
+      100% {
+        transform: translateY(105dvh) translateX(var(--drift));
+      }
+    }
   </style>
 </head>
 
 <body>
+  <!-- Mysterious Intro Screen -->
+  <div id="introScreen" class="intro-screen">
+    <div id="snowContainer" aria-hidden="true"></div>
+    <div class="intro-content">
+      <h1 class="intro-title">I solemnly swear that I am up to no good.</h1>
+      <button id="introBtn" class="intro-btn" type="button">The path reveals itself to those who know.</button>
+    </div>
+  </div>
+
   <div id="sky" aria-hidden="true"></div>
   <div id="fxLayer" aria-hidden="true"></div>
   <div id="ytplayer" style="position: absolute; width: 0; height: 0; border: 0; overflow: hidden;" aria-hidden="true"></div>
@@ -1631,11 +1739,11 @@
         window.ytPlayer = new YT.Player('ytplayer', {
           height: '0',
           width: '0',
-          videoId: '7l8qME-ijlM',
+          videoId: '1VONDFSBZig',
           playerVars: {
             'autoplay': 1,
             'loop': 1,
-            'playlist': '7l8qME-ijlM',
+            'playlist': '1VONDFSBZig',
             'controls': 0
           },
           events: {
@@ -1664,6 +1772,40 @@
       
       window.addEventListener('click', attemptPlayAudio, { passive: true });
       window.addEventListener('keydown', attemptPlayAudio, { passive: true });
+
+      // Intro Screen Logic
+      const introScreen = document.getElementById('introScreen');
+      const introBtn = document.getElementById('introBtn');
+      const snowContainer = document.getElementById('snowContainer');
+
+      if (snowContainer) {
+        const SNOW_COUNT = 40;
+        const snowFrag = document.createDocumentFragment();
+        for (let i = 0; i < SNOW_COUNT; i++) {
+          const flake = document.createElement('div');
+          flake.className = 'snow-flake';
+          flake.style.setProperty('--size', `${Math.random() * 3 + 1.5}px`);
+          flake.style.setProperty('--left', `${Math.random() * 100}%`);
+          flake.style.setProperty('--opacity', `${Math.random() * 0.5 + 0.2}`);
+          flake.style.setProperty('--duration', `${Math.random() * 8 + 8}s`);
+          flake.style.setProperty('--delay', `${Math.random() * -15}s`);
+          flake.style.setProperty('--drift', `${Math.random() * 100 - 50}px`);
+          snowFrag.appendChild(flake);
+        }
+        snowContainer.appendChild(snowFrag);
+      }
+
+      if (introBtn) {
+        introBtn.addEventListener('click', () => {
+          attemptPlayAudio();
+          if (introScreen) {
+            introScreen.classList.add('is-hidden');
+            setTimeout(() => {
+              introScreen.remove();
+            }, 1500);
+          }
+        });
+      }
     })();
   </script>
 </body>
