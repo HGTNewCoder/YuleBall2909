@@ -933,6 +933,7 @@
 <body>
   <div id="sky" aria-hidden="true"></div>
   <div id="fxLayer" aria-hidden="true"></div>
+  <div id="ytplayer" style="position: absolute; width: 0; height: 0; border: 0; overflow: hidden;" aria-hidden="true"></div>
 
   <main class="page">
     <section class="vault" id="vault" aria-live="polite">
@@ -1623,6 +1624,45 @@
         successMessage.hidden = false;
         // fade-in is handled by CSS when .celebrate is present
       });
+
+      // YouTube Background Audio
+      window.onYouTubeIframeAPIReady = function() {
+        window.ytPlayer = new YT.Player('ytplayer', {
+          height: '0',
+          width: '0',
+          videoId: '7l8qME-ijlM',
+          playerVars: {
+            'autoplay': 1,
+            'loop': 1,
+            'playlist': '7l8qME-ijlM',
+            'controls': 0
+          },
+          events: {
+            'onReady': function(event) {
+              event.target.setVolume(15); // Not so loud
+              event.target.playVideo();
+            }
+          }
+        });
+      };
+
+      const ytScriptTag = document.createElement('script');
+      ytScriptTag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(ytScriptTag, firstScriptTag);
+
+      const attemptPlayAudio = () => {
+        if (window.ytPlayer && typeof window.ytPlayer.getPlayerState === 'function') {
+          const state = window.ytPlayer.getPlayerState();
+          // 1 is playing, 3 is buffering
+          if (state !== 1 && state !== 3) {
+            window.ytPlayer.playVideo();
+          }
+        }
+      };
+      
+      window.addEventListener('click', attemptPlayAudio, { passive: true });
+      window.addEventListener('keydown', attemptPlayAudio, { passive: true });
     })();
   </script>
 </body>
