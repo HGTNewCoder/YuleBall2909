@@ -254,6 +254,10 @@
       border-radius: 14px;
       background: rgba(10, 16, 48, 0.08);
       border: 1px dashed rgba(90, 60, 20, 0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
     }
 
     .btn {
@@ -287,7 +291,6 @@
 
     .btn--yes,
     .btn--no {
-      position: absolute;
       min-width: 100px;
       color: rgba(15, 10, 5, 0.92);
       background:
@@ -298,14 +301,8 @@
         0 0 22px rgba(212, 175, 55, 0.18);
     }
 
-    .btn--yes {
-      right: calc(50% + 10px);
-      top: calc(50% - 24px);
-    }
-
-    .btn--no {
-      left: calc(50% + 10px);
-      top: calc(50% - 24px);
+    .btn--no.is-fleeing {
+      position: absolute;
     }
 
     .btn--yes:hover,
@@ -1666,6 +1663,7 @@
           }
         }
 
+        noBtn.classList.add('is-fleeing');
         noBtn.style.right = 'auto';
         noBtn.style.left = `${x}px`;
         noBtn.style.top = `${y}px`;
