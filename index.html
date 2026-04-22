@@ -247,13 +247,8 @@
     }
 
     .button-arena {
-      position: relative;
       width: min(460px, 100%);
-      height: 150px;
       margin: 26px auto 0;
-      border-radius: 14px;
-      background: rgba(10, 16, 48, 0.08);
-      border: 1px dashed rgba(90, 60, 20, 0.25);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -301,9 +296,6 @@
         0 0 22px rgba(212, 175, 55, 0.18);
     }
 
-    .btn--no.is-fleeing {
-      position: absolute;
-    }
 
     .btn--yes:hover,
     .btn--no:hover {
@@ -1614,76 +1606,6 @@
           if (e.pointerType === 'touch') return;
           if (document.body.classList.contains('celebrate')) return;
           spawnSpark(e.clientX, e.clientY);
-        },
-        { passive: true }
-      );
-
-      // "No" button teleport
-      function moveNoButton(avoidClientX, avoidClientY) {
-        if (noBtn.disabled) return;
-
-        // The letter starts hidden until the vault unlocks.
-        // Avoid running layout-dependent positioning code when not visible.
-        if (!arena.getClientRects().length) return;
-
-        const arenaRect = arena.getBoundingClientRect();
-        const btnRect = noBtn.getBoundingClientRect();
-        const yesRect = yesBtn.getBoundingClientRect();
-
-        const padding = 10;
-        const maxX = Math.max(padding, arenaRect.width - btnRect.width - padding);
-        const maxY = Math.max(padding, arenaRect.height - btnRect.height - padding);
-
-        const avoidX = avoidClientX != null ? avoidClientX - arenaRect.left : arenaRect.width / 2;
-        const avoidY = avoidClientY != null ? avoidClientY - arenaRect.top : arenaRect.height / 2;
-
-        const yesCenterX = yesRect.left - arenaRect.left + yesRect.width / 2;
-        const yesCenterY = yesRect.top - arenaRect.top + yesRect.height / 2;
-
-        let x = padding;
-        let y = padding;
-        const tries = 18;
-
-        for (let i = 0; i < tries; i++) {
-          const candidateX = padding + Math.random() * (maxX - padding);
-          const candidateY = padding + Math.random() * (maxY - padding);
-          const centerX = candidateX + btnRect.width / 2;
-          const centerY = candidateY + btnRect.height / 2;
-
-          const safePointerDist = Math.min(140, Math.max(60, arenaRect.width / 3));
-          const safeYesDist = Math.min(120, (yesRect.width + btnRect.width) / 2 + 15);
-
-          const farFromPointer = Math.hypot(centerX - avoidX, centerY - avoidY) > safePointerDist || i === tries - 1;
-          const farFromYes = Math.hypot(centerX - yesCenterX, centerY - yesCenterY) > safeYesDist || i === tries - 1;
-
-          if (farFromPointer && farFromYes) {
-            x = candidateX;
-            y = candidateY;
-            break;
-          }
-        }
-
-        noBtn.classList.add('is-fleeing');
-        noBtn.style.right = 'auto';
-        noBtn.style.left = `${x}px`;
-        noBtn.style.top = `${y}px`;
-      }
-      noBtn.addEventListener('pointerenter', (e) => moveNoButton(e.clientX, e.clientY));
-      noBtn.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        moveNoButton(e.clientX, e.clientY);
-      });
-      noBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        moveNoButton();
-      });
-      noBtn.addEventListener('focus', () => moveNoButton());
-
-      window.addEventListener(
-        'resize',
-        () => {
-          // keep the No button within the arena bounds
-          moveNoButton();
         },
         { passive: true }
       );
