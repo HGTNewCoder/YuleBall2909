@@ -1,0 +1,1520 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Yule Ball Invitation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --night-0: #05060b;
+      --night-1: #070a14;
+      --night-2: #0a1030;
+
+      --parchment-0: #f7eccb;
+      --parchment-1: #f2dfb0;
+      --parchment-2: #e3c98a;
+
+      --ink: #1c130a;
+      --gold-0: #f6e27a;
+      --gold-1: #d4af37;
+      --gold-2: #b8891e;
+
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-family: "Cinzel", serif;
+      background:
+        radial-gradient(1200px 700px at 18% 10%, rgba(18, 30, 80, 0.65), rgba(0, 0, 0, 0) 60%),
+        radial-gradient(1000px 800px at 85% 30%, rgba(12, 16, 60, 0.75), rgba(0, 0, 0, 0) 55%),
+        linear-gradient(180deg, var(--night-2), var(--night-1) 55%, var(--night-0));
+      overflow-x: hidden;
+    }
+
+    /* Background starfield */
+    #sky {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    #sky::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(closest-side at 20% 25%, rgba(212, 175, 55, 0.08), rgba(0, 0, 0, 0) 55%),
+        radial-gradient(closest-side at 70% 40%, rgba(120, 170, 255, 0.08), rgba(0, 0, 0, 0) 55%),
+        radial-gradient(closest-side at 45% 75%, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0) 60%);
+      filter: blur(1px);
+      opacity: 0.9;
+    }
+
+    .star {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--size);
+      height: var(--size);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+      opacity: var(--from);
+      transform: translateZ(0);
+      animation: twinkle var(--twinkle) ease-in-out var(--delay) infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: var(--from);
+        transform: scale(0.85);
+      }
+      50% {
+        opacity: var(--to);
+        transform: scale(1.25);
+      }
+    }
+
+    /* FX overlay layer for sparks and celebration bursts */
+    #fxLayer {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .page {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      gap: 28px;
+    }
+
+    .letter {
+      width: min(760px, 92vw);
+      padding: clamp(22px, 4.2vw, 44px);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0) 32%),
+        radial-gradient(900px 300px at 50% -10%, rgba(255, 255, 255, 0.16), rgba(0, 0, 0, 0) 70%),
+        linear-gradient(135deg, var(--parchment-0), var(--parchment-1) 45%, var(--parchment-2));
+      border: 1px solid rgba(90, 60, 20, 0.35);
+      box-shadow:
+        0 22px 70px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(212, 175, 55, 0.14) inset;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: calc(var(--radius) - 10px);
+      border: 1px solid rgba(212, 175, 55, 0.30);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .letter::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(closest-side at 10% 15%, rgba(120, 80, 30, 0.10), rgba(0, 0, 0, 0) 55%),
+        radial-gradient(closest-side at 85% 10%, rgba(120, 80, 30, 0.08), rgba(0, 0, 0, 0) 60%),
+        radial-gradient(closest-side at 70% 85%, rgba(120, 80, 30, 0.10), rgba(0, 0, 0, 0) 58%),
+        radial-gradient(closest-side at 20% 90%, rgba(120, 80, 30, 0.08), rgba(0, 0, 0, 0) 60%);
+      mix-blend-mode: multiply;
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .question {
+      margin: 0;
+      text-align: center;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      font-size: clamp(1.55rem, 3.6vw, 2.55rem);
+    }
+
+    .button-arena {
+      position: relative;
+      width: min(460px, 100%);
+      height: 150px;
+      margin: 26px auto 0;
+      border-radius: 14px;
+      background: rgba(10, 16, 48, 0.08);
+      border: 1px dashed rgba(90, 60, 20, 0.25);
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      font-family: inherit;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
+      user-select: none;
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(0.99);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid rgba(212, 175, 55, 0.55);
+      outline-offset: 3px;
+    }
+
+    .btn[disabled] {
+      cursor: default;
+      opacity: 0.7;
+      filter: grayscale(0.05);
+    }
+
+    .btn--yes {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      color: rgba(15, 10, 5, 0.92);
+      background:
+        linear-gradient(180deg, var(--gold-0), var(--gold-1) 55%, var(--gold-2));
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(0, 0, 0, 0.25) inset,
+        0 0 22px rgba(212, 175, 55, 0.18);
+    }
+
+    .btn--yes:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn--no {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      color: rgba(255, 255, 255, 0.92);
+      background: linear-gradient(180deg, rgba(25, 28, 44, 0.95), rgba(10, 12, 18, 0.95));
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(212, 175, 55, 0.18) inset;
+    }
+
+    .message {
+      margin: 26px 0 0;
+      text-align: center;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+      color: rgba(20, 12, 6, 0.92);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 260ms ease, transform 260ms ease;
+    }
+
+    body.celebrate .message {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body.celebrate .letter {
+      animation: letterGlow 1100ms ease-in-out both;
+    }
+
+    @keyframes letterGlow {
+      0% {
+        box-shadow:
+          0 22px 70px rgba(0, 0, 0, 0.55),
+          0 0 0 1px rgba(212, 175, 55, 0.14) inset;
+      }
+      45% {
+        box-shadow:
+          0 26px 80px rgba(0, 0, 0, 0.62),
+          0 0 0 1px rgba(212, 175, 55, 0.25) inset,
+          0 0 60px rgba(212, 175, 55, 0.20);
+      }
+      100% {
+        box-shadow:
+          0 22px 70px rgba(0, 0, 0, 0.55),
+          0 0 0 1px rgba(212, 175, 55, 0.16) inset;
+      }
+    }
+
+    /* Cursor sparks */
+    .spark {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--size);
+      height: var(--size);
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background:
+        radial-gradient(circle, rgba(255, 244, 198, 1) 0%, rgba(246, 226, 122, 0.9) 35%, rgba(212, 175, 55, 0) 72%);
+      filter: drop-shadow(0 0 7px rgba(212, 175, 55, 0.65));
+      opacity: 0.95;
+      animation: sparkFly var(--life) ease-out forwards;
+    }
+
+    @keyframes sparkFly {
+      0% {
+        opacity: 0.95;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.25);
+      }
+    }
+
+    /* Celebration burst stars */
+    .burst-star {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--size);
+      height: var(--size);
+      transform: translate(-50%, -50%);
+      background: linear-gradient(180deg, var(--gold-0), var(--gold-1) 55%, var(--gold-2));
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.55));
+      opacity: 0;
+      animation: burst var(--dur) ease-out var(--delay) forwards;
+      border-radius: 4px;
+    }
+
+    @supports (clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)) {
+      .burst-star {
+        border-radius: 0;
+        clip-path: polygon(
+          50% 0%,
+          61% 35%,
+          98% 35%,
+          68% 57%,
+          79% 91%,
+          50% 70%,
+          21% 91%,
+          32% 57%,
+          2% 35%,
+          39% 35%
+        );
+      }
+    }
+
+    @keyframes burst {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.25) rotate(0deg);
+      }
+      70% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0) rotate(var(--rot));
+      }
+    }
+
+    /* Riddle Vault */
+    .vault {
+      width: min(920px, 92vw);
+      padding: clamp(22px, 4.2vw, 44px);
+      border-radius: var(--radius);
+      color: rgba(255, 255, 255, 0.92);
+      background:
+        radial-gradient(900px 520px at 50% -15%, rgba(212, 175, 55, 0.18), rgba(0, 0, 0, 0) 62%),
+        radial-gradient(520px 380px at 15% 85%, rgba(120, 170, 255, 0.10), rgba(0, 0, 0, 0) 60%),
+        linear-gradient(180deg, rgba(10, 16, 48, 0.68), rgba(5, 6, 11, 0.82));
+      border: 1px solid rgba(212, 175, 55, 0.26);
+      box-shadow:
+        0 22px 70px rgba(0, 0, 0, 0.60),
+        0 0 0 1px rgba(212, 175, 55, 0.14) inset;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .vault::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: calc(var(--radius) - 10px);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .vault__sub {
+      margin: 10px 0 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: clamp(0.95rem, 1.9vw, 1.1rem);
+    }
+
+    .vault__snitchWrap {
+      margin: 18px auto 0;
+      width: min(760px, 100%);
+    }
+
+    .snitch {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 20px 46px rgba(0, 0, 0, 0.55));
+    }
+
+    @keyframes wingFlapLeft {
+      0%, 100% {
+        transform: rotate(7deg) translateY(0);
+      }
+      50% {
+        transform: rotate(-11deg) translateY(-6px);
+      }
+    }
+
+    @keyframes wingFlapRight {
+      0%, 100% {
+        transform: rotate(-7deg) translateY(0);
+      }
+      50% {
+        transform: rotate(11deg) translateY(-6px);
+      }
+    }
+
+    .snitch__wing,
+    .snitch__half,
+    .snitch__core {
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: transform 980ms cubic-bezier(0.20, 0.85, 0.22, 1), opacity 980ms ease, filter 980ms ease;
+    }
+
+    .snitch__wingInner {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation-duration: 1.35s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+
+    .snitch__wing--left .snitch__wingInner {
+      transform-origin: 100% 55%;
+      animation-name: wingFlapLeft;
+    }
+
+    .snitch__wing--right .snitch__wingInner {
+      transform-origin: 0% 55%;
+      animation-name: wingFlapRight;
+      animation-delay: -0.15s;
+    }
+
+    .snitch__lock {
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: transform 520ms ease, filter 520ms ease;
+    }
+
+    .snitch__lockIcon--unlocked {
+      opacity: 0;
+      transition: opacity 240ms ease;
+    }
+
+    .snitch__lockIcon--locked {
+      opacity: 1;
+      transition: opacity 240ms ease;
+    }
+
+    .snitch__lock.is-unlocked {
+      transform: translate(var(--unlock-dx), var(--unlock-dy)) rotate(var(--unlock-rot));
+      filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.35));
+    }
+
+    .snitch__lock.is-unlocked .snitch__lockIcon--unlocked {
+      opacity: 1;
+    }
+
+    .snitch__lock.is-unlocked .snitch__lockIcon--locked {
+      opacity: 0;
+    }
+
+    .snitch__core {
+      opacity: 0;
+      filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.65));
+    }
+
+    .snitch.is-open .snitch__half--top {
+      transform: translateY(-16px) rotate(-16deg);
+      filter: drop-shadow(0 0 16px rgba(246, 226, 122, 0.12));
+    }
+
+    .snitch.is-open .snitch__half--bottom {
+      transform: translateY(16px) rotate(16deg);
+      filter: drop-shadow(0 0 16px rgba(246, 226, 122, 0.10));
+    }
+
+    .snitch.is-open .snitch__wing--left {
+      transform: translateX(-12px) rotate(-2deg);
+    }
+
+    .snitch.is-open .snitch__wing--right {
+      transform: translateX(12px) rotate(2deg);
+    }
+
+    .snitch.is-open .snitch__core {
+      opacity: 1;
+    }
+
+    .vault__prompts {
+      margin: 22px auto 0;
+      width: min(760px, 100%);
+      display: grid;
+      gap: 14px;
+    }
+
+    .vault-prompt {
+      padding: 14px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+    }
+
+    .vault-prompt__title {
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      font-size: 1.05rem;
+    }
+
+    .vault-prompt__question {
+      margin: 8px 0 0;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .vault-prompt__row {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .vault-prompt__field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .vault-prompt__label {
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .vault-prompt__input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      background: rgba(5, 6, 11, 0.60);
+      color: rgba(255, 255, 255, 0.92);
+      font-family: inherit;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .vault-prompt__input:focus-visible {
+      outline: 3px solid rgba(212, 175, 55, 0.55);
+      outline-offset: 3px;
+    }
+
+    .btn--unlock {
+      color: rgba(15, 10, 5, 0.92);
+      background:
+        linear-gradient(180deg, var(--gold-0), var(--gold-1) 55%, var(--gold-2));
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.28),
+        0 0 0 1px rgba(0, 0, 0, 0.22) inset,
+        0 0 18px rgba(212, 175, 55, 0.18);
+      justify-self: end;
+      align-self: end;
+      min-width: 132px;
+    }
+
+    .btn--unlock:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .vault-prompt__status {
+      margin: 10px 0 0;
+      min-height: 1.25em;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: rgba(246, 226, 122, 0.90);
+    }
+
+    /* Invitation popup */
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    .invitationModal {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      pointer-events: none;
+    }
+
+    .invitationModal[hidden] {
+      display: none;
+    }
+
+    .invitationModal.is-open {
+      pointer-events: auto;
+    }
+
+    .invitationModal__backdrop {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(900px 520px at 50% 12%, rgba(212, 175, 55, 0.10), rgba(0, 0, 0, 0) 62%),
+        rgba(5, 6, 11, 0.74);
+      opacity: 0;
+      transition: opacity 320ms ease;
+    }
+
+    @supports ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) {
+      .invitationModal__backdrop {
+        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(3px);
+      }
+    }
+
+    .invitationModal__panel {
+      position: relative;
+      width: min(760px, 92vw);
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+      transition: transform 420ms cubic-bezier(0.20, 0.85, 0.22, 1), opacity 320ms ease;
+    }
+
+    .invitationShell {
+      position: relative;
+      width: 100%;
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+
+    .invitationShell__flap {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(900px 300px at 50% -10%, rgba(255, 255, 255, 0.10), rgba(0, 0, 0, 0) 70%),
+        linear-gradient(135deg, rgba(227, 201, 138, 0.95), rgba(242, 223, 176, 0.92) 55%, rgba(227, 201, 138, 0.95));
+      border: 1px solid rgba(90, 60, 20, 0.36);
+      box-shadow:
+        0 18px 48px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(212, 175, 55, 0.10) inset;
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .invitationShell__flap::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: calc(var(--radius) - 12px);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      opacity: 0.9;
+    }
+
+    .invitationModal .letter {
+      transform: translateY(26px) scale(0.98);
+      opacity: 0;
+      transition: transform 820ms cubic-bezier(0.20, 0.85, 0.22, 1), opacity 420ms ease;
+      z-index: 1;
+    }
+
+    .invitationModal.is-open .invitationModal__backdrop {
+      opacity: 1;
+    }
+
+    .invitationModal.is-open .invitationModal__panel {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .invitationModal.is-open .invitationShell__flap {
+      transform: rotateX(-165deg);
+      transition: transform 880ms cubic-bezier(0.20, 0.85, 0.22, 1) 120ms;
+    }
+
+    .invitationModal.is-open .letter {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition-delay: 220ms;
+    }
+
+    @media (max-width: 560px) {
+      .vault-prompt__row {
+        grid-template-columns: 1fr;
+      }
+
+      .btn--unlock {
+        justify-self: stretch;
+        min-width: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .star { animation: none; opacity: 0.6; }
+      .spark, .burst-star { animation-duration: 1ms; }
+      .btn { transition: none; }
+      body.celebrate .letter { animation: none; }
+      .snitch__wing,
+      .snitch__half,
+      .snitch__lock,
+      .snitch__core {
+        transition-duration: 1ms;
+      }
+
+      .snitch__wingInner {
+        animation: none;
+      }
+
+      .invitationModal__backdrop,
+      .invitationModal__panel,
+      .invitationShell__flap,
+      .invitationModal .letter {
+        transition-duration: 1ms;
+        transition-delay: 0ms;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sky" aria-hidden="true"></div>
+  <div id="fxLayer" aria-hidden="true"></div>
+
+  <main class="page">
+    <section class="vault" id="vault" aria-live="polite">
+      <h1 class="question">The Riddle Vault</h1>
+      <p class="vault__sub">Answer three prompts to unlock the Snitch.</p>
+
+      <div class="vault__snitchWrap">
+        <svg
+          class="snitch"
+          id="snitch"
+          viewBox="0 0 700 360"
+          role="img"
+          aria-labelledby="snitchTitle snitchDesc"
+        >
+          <title id="snitchTitle">Golden Snitch vault</title>
+          <desc id="snitchDesc">A closed Golden Snitch secured by three magical locks.</desc>
+
+          <defs>
+            <radialGradient id="snitchHalo" cx="50%" cy="45%" r="60%">
+              <stop offset="0%" stop-color="rgba(246, 226, 122, 0.28)" />
+              <stop offset="55%" stop-color="rgba(212, 175, 55, 0.12)" />
+              <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
+            </radialGradient>
+
+            <radialGradient id="snitchGold" cx="34%" cy="28%" r="78%">
+              <stop offset="0%" stop-color="rgba(255, 244, 198, 0.92)" />
+              <stop offset="35%" stop-color="var(--gold-0)" />
+              <stop offset="68%" stop-color="var(--gold-1)" />
+              <stop offset="100%" stop-color="var(--gold-2)" />
+            </radialGradient>
+
+            <linearGradient id="snitchWingLeft" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="rgba(255, 255, 255, 0.88)" />
+              <stop offset="46%" stop-color="rgba(210, 224, 255, 0.74)" />
+              <stop offset="100%" stop-color="rgba(255, 255, 255, 0.82)" />
+            </linearGradient>
+
+            <linearGradient id="snitchWingRight" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(255, 255, 255, 0.88)" />
+              <stop offset="46%" stop-color="rgba(210, 224, 255, 0.74)" />
+              <stop offset="100%" stop-color="rgba(255, 255, 255, 0.82)" />
+            </linearGradient>
+
+            <linearGradient id="snitchLockPlate" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(246, 226, 122, 0.92)" />
+              <stop offset="100%" stop-color="rgba(184, 137, 30, 0.95)" />
+            </linearGradient>
+          </defs>
+
+          <circle cx="350" cy="180" r="150" fill="url(#snitchHalo)" opacity="0.95" />
+
+          <g>
+            <g class="snitch__wing snitch__wing--left">
+              <g class="snitch__wingInner">
+                <path
+                  d="M 284 178 C 246 142 194 118 138 112 C 88 106 44 122 22 146 C 70 154 112 174 148 202 C 186 232 226 258 264 268 C 214 272 166 288 120 312 C 194 306 256 262 284 178 Z"
+                  fill="url(#snitchWingLeft)"
+                  opacity="0.95"
+                />
+                <path
+                  d="M 270 184 C 240 164 204 148 168 140 C 126 132 86 138 56 152 C 90 158 122 172 148 190 C 176 210 210 230 244 240 C 216 246 186 258 156 276 C 210 270 252 240 270 184 Z"
+                  fill="rgba(120, 170, 255, 0.12)"
+                  opacity="0.9"
+                />
+                <path
+                  d="M 248 174 C 188 166 126 182 78 214"
+                  fill="none"
+                  stroke="rgba(10, 16, 48, 0.24)"
+                  stroke-width="2.0"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M 252 196 C 188 206 132 232 96 260"
+                  fill="none"
+                  stroke="rgba(10, 16, 48, 0.20)"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </g>
+            </g>
+
+            <g class="snitch__wing snitch__wing--right">
+              <g class="snitch__wingInner">
+                <path
+                  d="M 416 178 C 454 142 506 118 562 112 C 612 106 656 122 678 146 C 630 154 588 174 552 202 C 514 232 474 258 436 268 C 486 272 534 288 580 312 C 506 306 444 262 416 178 Z"
+                  fill="url(#snitchWingRight)"
+                  opacity="0.95"
+                />
+                <path
+                  d="M 430 184 C 460 164 496 148 532 140 C 574 132 614 138 644 152 C 610 158 578 172 552 190 C 524 210 490 230 456 240 C 484 246 514 258 544 276 C 490 270 448 240 430 184 Z"
+                  fill="rgba(120, 170, 255, 0.12)"
+                  opacity="0.9"
+                />
+                <path
+                  d="M 452 174 C 512 166 574 182 622 214"
+                  fill="none"
+                  stroke="rgba(10, 16, 48, 0.24)"
+                  stroke-width="2.0"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M 448 196 C 512 206 568 232 604 260"
+                  fill="none"
+                  stroke="rgba(10, 16, 48, 0.20)"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </g>
+            </g>
+          </g>
+
+          <g>
+            <g class="snitch__half snitch__half--top">
+              <path
+                d="M 264 180 A 86 86 0 0 0 436 180 L 264 180 Z"
+                fill="url(#snitchGold)"
+                stroke="rgba(0, 0, 0, 0.24)"
+                stroke-width="1.15"
+              />
+              <circle cx="326" cy="148" r="26" fill="rgba(255, 255, 255, 0.18)" />
+              <circle cx="315" cy="138" r="10" fill="rgba(255, 255, 255, 0.16)" />
+            </g>
+
+            <g class="snitch__half snitch__half--bottom">
+              <path
+                d="M 264 180 A 86 86 0 0 1 436 180 L 264 180 Z"
+                fill="url(#snitchGold)"
+                stroke="rgba(0, 0, 0, 0.26)"
+                stroke-width="1.15"
+              />
+              <circle cx="392" cy="230" r="52" fill="rgba(0, 0, 0, 0.06)" />
+              <path
+                d="M 286 214 C 322 234 378 234 414 214"
+                fill="none"
+                stroke="rgba(15, 10, 5, 0.22)"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
+            </g>
+            <circle class="snitch__core" cx="350" cy="180" r="18" fill="rgba(246, 226, 122, 0.30)" />
+          </g>
+
+          <g>
+            <g
+              class="snitch__lock"
+              id="snitchLock1"
+              style="--unlock-dx: -8px; --unlock-dy: -10px; --unlock-rot: -8deg;"
+            >
+              <circle cx="350" cy="138" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)" stroke-width="1.2" />
+              <circle cx="350" cy="138" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2" opacity="0.8" />
+
+              <g class="snitch__lockIcon snitch__lockIcon--locked" transform="translate(350 138)">
+                <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
+                <path
+                  d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <circle cx="0" cy="5" r="1.6" fill="rgba(255, 255, 255, 0.22)" />
+              </g>
+
+              <g class="snitch__lockIcon snitch__lockIcon--unlocked" transform="translate(350 138)">
+                <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
+                <path
+                  d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <circle cx="0" cy="5" r="1.6" fill="rgba(255, 255, 255, 0.22)" />
+              </g>
+            </g>
+
+            <g
+              class="snitch__lock"
+              id="snitchLock2"
+              style="--unlock-dx: -12px; --unlock-dy: 4px; --unlock-rot: -10deg;"
+            >
+              <circle cx="312" cy="198" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)" stroke-width="1.2" />
+              <circle cx="312" cy="198" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2" opacity="0.8" />
+
+              <g class="snitch__lockIcon snitch__lockIcon--locked" transform="translate(312 198)">
+                <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
+                <path
+                  d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M -5 7 H 5"
+                  fill="none"
+                  stroke="rgba(255, 255, 255, 0.18)"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+              </g>
+
+              <g class="snitch__lockIcon snitch__lockIcon--unlocked" transform="translate(312 198)">
+                <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
+                <path
+                  d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M -5 7 H 5"
+                  fill="none"
+                  stroke="rgba(255, 255, 255, 0.18)"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+              </g>
+            </g>
+
+            <g
+              class="snitch__lock"
+              id="snitchLock3"
+              style="--unlock-dx: 12px; --unlock-dy: 4px; --unlock-rot: 10deg;"
+            >
+              <circle cx="388" cy="198" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)" stroke-width="1.2" />
+              <circle cx="388" cy="198" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2" opacity="0.8" />
+
+              <g class="snitch__lockIcon snitch__lockIcon--locked" transform="translate(388 198)">
+                <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
+                <path
+                  d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M -5 7 H 5"
+                  fill="none"
+                  stroke="rgba(255, 255, 255, 0.18)"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+              </g>
+
+              <g class="snitch__lockIcon snitch__lockIcon--unlocked" transform="translate(388 198)">
+                <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
+                <path
+                  d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0"
+                  fill="none"
+                  stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M -5 7 H 5"
+                  fill="none"
+                  stroke="rgba(255, 255, 255, 0.18)"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="vault__prompts" id="vaultPrompts">
+        <div class="vault-prompt" data-index="0">
+          <h2 class="vault-prompt__title">Prompt 1</h2>
+          <p class="vault-prompt__question" id="vaultQ1"></p>
+
+          <div class="vault-prompt__row">
+            <label class="vault-prompt__field">
+              <span class="vault-prompt__label">Answer</span>
+              <input class="vault-prompt__input" id="vaultA1" type="text" autocomplete="off" />
+            </label>
+            <button class="btn btn--unlock" id="vaultB1" type="button">Unlock</button>
+          </div>
+
+          <p class="vault-prompt__status" id="vaultS1" aria-live="polite"></p>
+        </div>
+
+        <div class="vault-prompt" data-index="1">
+          <h2 class="vault-prompt__title">Prompt 2</h2>
+          <p class="vault-prompt__question" id="vaultQ2"></p>
+
+          <div class="vault-prompt__row">
+            <label class="vault-prompt__field">
+              <span class="vault-prompt__label">Answer</span>
+              <input class="vault-prompt__input" id="vaultA2" type="text" autocomplete="off" />
+            </label>
+            <button class="btn btn--unlock" id="vaultB2" type="button">Unlock</button>
+          </div>
+
+          <p class="vault-prompt__status" id="vaultS2" aria-live="polite"></p>
+        </div>
+
+        <div class="vault-prompt" data-index="2">
+          <h2 class="vault-prompt__title">Prompt 3</h2>
+          <p class="vault-prompt__question" id="vaultQ3"></p>
+
+          <div class="vault-prompt__row">
+            <label class="vault-prompt__field">
+              <span class="vault-prompt__label">Answer</span>
+              <input class="vault-prompt__input" id="vaultA3" type="text" autocomplete="off" />
+            </label>
+            <button class="btn btn--unlock" id="vaultB3" type="button">Unlock</button>
+          </div>
+
+          <p class="vault-prompt__status" id="vaultS3" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="invitationModal" id="invitationModal" role="dialog" aria-modal="true" aria-labelledby="invitationTitle" hidden>
+    <div class="invitationModal__backdrop" aria-hidden="true"></div>
+    <div class="invitationModal__panel" role="document">
+      <div class="invitationShell">
+        <div class="invitationShell__flap" aria-hidden="true"></div>
+
+        <section class="letter" id="letter" aria-live="polite" hidden>
+          <h1 class="question" id="invitationTitle">Will you go to Prom with me?</h1>
+
+          <div class="button-arena" id="buttonArena">
+            <button class="btn btn--yes" id="yesBtn" type="button">Yes</button>
+            <button class="btn btn--no" id="noBtn" type="button">No</button>
+          </div>
+
+          <p class="message" id="successMessage" hidden>Excellent. It will be an unforgettable night.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const sky = document.getElementById('sky');
+      const fxLayer = document.getElementById('fxLayer');
+      const vault = document.getElementById('vault');
+      const snitch = document.getElementById('snitch');
+      const invitationModal = document.getElementById('invitationModal');
+      const letter = document.getElementById('letter');
+      const arena = document.getElementById('buttonArena');
+      const yesBtn = document.getElementById('yesBtn');
+      const noBtn = document.getElementById('noBtn');
+      const successMessage = document.getElementById('successMessage');
+
+      const vaultQuestions = [
+        document.getElementById('vaultQ1'),
+        document.getElementById('vaultQ2'),
+        document.getElementById('vaultQ3'),
+      ];
+
+      const vaultInputs = [
+        document.getElementById('vaultA1'),
+        document.getElementById('vaultA2'),
+        document.getElementById('vaultA3'),
+      ];
+
+      const vaultButtons = [
+        document.getElementById('vaultB1'),
+        document.getElementById('vaultB2'),
+        document.getElementById('vaultB3'),
+      ];
+
+      const vaultStatuses = [
+        document.getElementById('vaultS1'),
+        document.getElementById('vaultS2'),
+        document.getElementById('vaultS3'),
+      ];
+
+      const snitchLocks = [
+        document.getElementById('snitchLock1'),
+        document.getElementById('snitchLock2'),
+        document.getElementById('snitchLock3'),
+      ];
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Configure your three prompts here.
+      // - Fill in `question` and `answer` before sharing the site.
+      // - Answers are case-insensitive.
+      // - Optional: allow multiple acceptable answers using "|" (example: "hermione|hermione granger").
+      const VAULT_PROMPTS = [
+        { question: '', answer: '1' },
+        { question: '', answer: '2' },
+        { question: '', answer: '3' },
+      ];
+
+      const unlocked = [false, false, false];
+
+      function normalizeAnswer(value) {
+        return String(value)
+          .toLowerCase()
+          .normalize('NFKD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, ' ')
+          .trim();
+      }
+
+      function matchesExpected(expected, actual) {
+        const normalizedActual = normalizeAnswer(actual);
+        if (!normalizedActual) return false;
+
+        const variants = String(expected)
+          .split('|')
+          .map((v) => normalizeAnswer(v))
+          .filter(Boolean);
+
+        if (variants.length === 0) return false;
+        return variants.includes(normalizedActual);
+      }
+
+      function setVaultStatus(index, text) {
+        const el = vaultStatuses[index];
+        if (!el) return;
+        el.textContent = text;
+      }
+
+      function playSnitchOpenSound() {
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+
+          const ctx = new AudioCtx();
+          const master = ctx.createGain();
+          master.gain.value = 0.075;
+          master.connect(ctx.destination);
+
+          const now = ctx.currentTime;
+          const notes = [523.25, 659.25, 783.99, 1046.5];
+
+          notes.forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now);
+
+            const t0 = now + i * 0.085;
+            gain.gain.setValueAtTime(0.0001, t0);
+            gain.gain.exponentialRampToValueAtTime(1.0, t0 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.28);
+
+            osc.connect(gain);
+            gain.connect(master);
+
+            osc.start(t0);
+            osc.stop(t0 + 0.32);
+          });
+
+          setTimeout(() => {
+            ctx.close().catch(() => {});
+          }, 900);
+        } catch {
+          // ignore audio failures
+        }
+      }
+
+      function revealInvitation() {
+        if (!invitationModal) return;
+        if (!letter.hidden) return;
+
+        letter.hidden = false;
+        invitationModal.hidden = false;
+        invitationModal.classList.remove('is-open');
+        document.body.classList.add('modal-open');
+
+        requestAnimationFrame(() => {
+          invitationModal.classList.add('is-open');
+          requestAnimationFrame(placeInitialNoButton);
+          try {
+            yesBtn.focus({ preventScroll: true });
+          } catch {
+            yesBtn.focus();
+          }
+        });
+      }
+
+      function openSnitch() {
+        if (snitch && snitch.classList.contains('is-open')) return;
+        if (snitch) snitch.classList.add('is-open');
+        playSnitchOpenSound();
+        revealInvitation();
+      }
+
+      function unlockMechanism(index) {
+        unlocked[index] = true;
+
+        const lockEl = snitchLocks[index];
+        if (lockEl) lockEl.classList.add('is-unlocked');
+
+        const input = vaultInputs[index];
+        const button = vaultButtons[index];
+        if (input) input.disabled = true;
+        if (button) button.disabled = true;
+
+        setVaultStatus(index, 'Unlocked.');
+
+        if (unlocked.every(Boolean)) {
+          openSnitch();
+        }
+      }
+
+      function attemptUnlock(index) {
+        if (unlocked[index]) return;
+        const input = vaultInputs[index];
+        if (!input) return;
+
+        const expected = VAULT_PROMPTS[index]?.answer ?? '';
+        const actual = input.value;
+
+        if (matchesExpected(expected, actual)) {
+          unlockMechanism(index);
+          return;
+        }
+
+        if (!String(expected).trim()) {
+          console.warn(`Vault prompt ${index + 1} has no answer configured yet.`);
+        }
+
+        setVaultStatus(index, 'Try again.');
+        input.focus();
+        input.select();
+      }
+
+      if (vault) {
+        vaultQuestions.forEach((el, i) => {
+          const question = VAULT_PROMPTS[i]?.question ?? '';
+          if (!el) return;
+          if (String(question).trim()) {
+            el.hidden = false;
+            el.textContent = question;
+          } else {
+            el.hidden = true;
+            el.textContent = '';
+          }
+        });
+
+        vaultInputs.forEach((input, i) => {
+          if (!input) return;
+          input.addEventListener('input', () => setVaultStatus(i, ''));
+          input.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            attemptUnlock(i);
+          });
+        });
+
+        vaultButtons.forEach((btn, i) => {
+          if (!btn) return;
+          btn.addEventListener('click', () => attemptUnlock(i));
+        });
+      }
+
+      // Starry background (twinkling via CSS keyframes)
+      const STAR_COUNT = 150;
+      const starsFrag = document.createDocumentFragment();
+
+      for (let i = 0; i < STAR_COUNT; i++) {
+        const star = document.createElement('span');
+        star.className = 'star';
+
+        const size = (Math.random() * 2.2 + 0.6).toFixed(2);
+        const x = (Math.random() * 100).toFixed(2);
+        const y = (Math.random() * 100).toFixed(2);
+        const from = (Math.random() * 0.32 + 0.05).toFixed(2);
+        const to = Math.min(1, Number(from) + Math.random() * 0.62 + 0.18).toFixed(2);
+        const twinkle = (Math.random() * 3.8 + 1.6).toFixed(2);
+        const delay = (Math.random() * 4.0).toFixed(2);
+
+        star.style.setProperty('--size', `${size}px`);
+        star.style.setProperty('--x', `${x}%`);
+        star.style.setProperty('--y', `${y}%`);
+        star.style.setProperty('--from', from);
+        star.style.setProperty('--to', to);
+        star.style.setProperty('--twinkle', `${twinkle}s`);
+        star.style.setProperty('--delay', `${delay}s`);
+
+        starsFrag.appendChild(star);
+      }
+
+      sky.appendChild(starsFrag);
+
+      // Cursor wand sparks
+      let lastSparkTime = 0;
+      const SPARK_INTERVAL_MS = 16; // throttle to ~60fps
+
+      function spawnSpark(clientX, clientY) {
+        const now = performance.now();
+        if (now - lastSparkTime < SPARK_INTERVAL_MS) return;
+        lastSparkTime = now;
+
+        const spark = document.createElement('span');
+        spark.className = 'spark';
+
+        const dx = (Math.random() * 54 - 27).toFixed(1);
+        const dy = (Math.random() * 54 - 27).toFixed(1);
+        const size = (Math.random() * 6 + 7).toFixed(1);
+        const life = (Math.random() * 240 + 520).toFixed(0);
+
+        spark.style.setProperty('--x', `${clientX}px`);
+        spark.style.setProperty('--y', `${clientY}px`);
+        spark.style.setProperty('--dx', `${dx}px`);
+        spark.style.setProperty('--dy', `${dy}px`);
+        spark.style.setProperty('--size', `${size}px`);
+        spark.style.setProperty('--life', `${life}ms`);
+
+        fxLayer.appendChild(spark);
+        spark.addEventListener('animationend', () => spark.remove(), { once: true });
+      }
+
+      window.addEventListener(
+        'pointermove',
+        (e) => {
+          if (e.pointerType === 'touch') return;
+          if (document.body.classList.contains('celebrate')) return;
+          spawnSpark(e.clientX, e.clientY);
+        },
+        { passive: true }
+      );
+
+      // "No" button teleport
+      function moveNoButton(avoidClientX, avoidClientY) {
+        if (noBtn.disabled) return;
+
+        // The letter starts hidden until the vault unlocks.
+        // Avoid running layout-dependent positioning code when not visible.
+        if (!arena.getClientRects().length) return;
+
+        const arenaRect = arena.getBoundingClientRect();
+        const btnRect = noBtn.getBoundingClientRect();
+        const yesRect = yesBtn.getBoundingClientRect();
+
+        const padding = 10;
+        const maxX = Math.max(padding, arenaRect.width - btnRect.width - padding);
+        const maxY = Math.max(padding, arenaRect.height - btnRect.height - padding);
+
+        const avoidX = avoidClientX != null ? avoidClientX - arenaRect.left : arenaRect.width / 2;
+        const avoidY = avoidClientY != null ? avoidClientY - arenaRect.top : arenaRect.height / 2;
+
+        const yesCenterX = yesRect.left - arenaRect.left + yesRect.width / 2;
+        const yesCenterY = yesRect.top - arenaRect.top + yesRect.height / 2;
+
+        let x = padding;
+        let y = padding;
+        const tries = 18;
+
+        for (let i = 0; i < tries; i++) {
+          const candidateX = padding + Math.random() * (maxX - padding);
+          const candidateY = padding + Math.random() * (maxY - padding);
+          const centerX = candidateX + btnRect.width / 2;
+          const centerY = candidateY + btnRect.height / 2;
+
+          const farFromPointer = Math.hypot(centerX - avoidX, centerY - avoidY) > 140 || i === tries - 1;
+          const farFromYes = Math.hypot(centerX - yesCenterX, centerY - yesCenterY) > 120 || i === tries - 1;
+
+          if (farFromPointer && farFromYes) {
+            x = candidateX;
+            y = candidateY;
+            break;
+          }
+        }
+
+        noBtn.style.right = 'auto';
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+      }
+
+      function placeInitialNoButton() {
+        if (!arena.getClientRects().length) return;
+
+        const arenaRect = arena.getBoundingClientRect();
+        const btnRect = noBtn.getBoundingClientRect();
+        const padding = 10;
+
+        const x = Math.max(padding, arenaRect.width - btnRect.width - padding);
+        const y = padding;
+
+        noBtn.style.right = 'auto';
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+      }
+
+      requestAnimationFrame(placeInitialNoButton);
+
+      noBtn.addEventListener('pointerenter', (e) => moveNoButton(e.clientX, e.clientY));
+      noBtn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        moveNoButton(e.clientX, e.clientY);
+      });
+      noBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        moveNoButton();
+      });
+      noBtn.addEventListener('focus', () => moveNoButton());
+
+      window.addEventListener(
+        'resize',
+        () => {
+          // keep the No button within the arena bounds
+          moveNoButton();
+        },
+        { passive: true }
+      );
+
+      // "Yes" celebration burst
+      function burstFromLetter() {
+        if (!letter.getClientRects().length) return;
+        const rect = letter.getBoundingClientRect();
+        const originX = rect.left + rect.width / 2;
+        const originY = rect.top + rect.height / 2;
+
+        const count = 52;
+
+        for (let i = 0; i < count; i++) {
+          const star = document.createElement('span');
+          star.className = 'burst-star';
+
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.random() * 220 + 60;
+          const dx = Math.cos(angle) * distance;
+          const dy = Math.sin(angle) * distance;
+
+          const size = Math.random() * 10 + 9;
+          const delay = Math.random() * 140;
+          const dur = Math.random() * 520 + 860;
+          const rot = (Math.random() * 560 - 280).toFixed(0);
+
+          star.style.setProperty('--x', `${originX}px`);
+          star.style.setProperty('--y', `${originY}px`);
+          star.style.setProperty('--dx', `${dx.toFixed(1)}px`);
+          star.style.setProperty('--dy', `${dy.toFixed(1)}px`);
+          star.style.setProperty('--size', `${size.toFixed(1)}px`);
+          star.style.setProperty('--delay', `${delay.toFixed(0)}ms`);
+          star.style.setProperty('--dur', `${dur.toFixed(0)}ms`);
+          star.style.setProperty('--rot', `${rot}deg`);
+
+          fxLayer.appendChild(star);
+          star.addEventListener('animationend', () => star.remove(), { once: true });
+        }
+      }
+
+      yesBtn.addEventListener('click', () => {
+        if (document.body.classList.contains('celebrate')) return;
+
+        document.body.classList.add('celebrate');
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+
+        burstFromLetter();
+
+        successMessage.hidden = false;
+        // fade-in is handled by CSS when .celebrate is present
+      });
+    })();
+  </script>
+</body>
+</html>
