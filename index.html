@@ -1445,7 +1445,6 @@
             invitationModal.classList.add('drop-envelope');
           }, 800);
 
-          requestAnimationFrame(placeInitialNoButton);
           try {
             yesBtn.focus({ preventScroll: true });
           } catch {
@@ -1646,28 +1645,6 @@
         noBtn.style.left = `${x}px`;
         noBtn.style.top = `${y}px`;
       }
-
-      function placeInitialNoButton() {
-        if (!arena.getClientRects().length) return;
-
-        const arenaRect = arena.getBoundingClientRect();
-        const noRect = noBtn.getBoundingClientRect();
-        const yesRect = yesBtn.getBoundingClientRect();
-
-        const gap = Math.min(40, Math.max(10, arenaRect.width - yesRect.width - noRect.width - 20));
-        const totalWidth = yesRect.width + gap + noRect.width;
-        const startX = Math.max(10, (arenaRect.width - totalWidth) / 2);
-
-        yesBtn.style.left = `${startX}px`;
-        yesBtn.style.top = `${(arenaRect.height - yesRect.height) / 2}px`;
-
-        noBtn.style.right = 'auto';
-        noBtn.style.left = `${startX + yesRect.width + gap}px`;
-        noBtn.style.top = `${(arenaRect.height - noRect.height) / 2}px`;
-      }
-
-      requestAnimationFrame(placeInitialNoButton);
-
       noBtn.addEventListener('pointerenter', (e) => moveNoButton(e.clientX, e.clientY));
       noBtn.addEventListener('pointerdown', (e) => {
         e.preventDefault();
