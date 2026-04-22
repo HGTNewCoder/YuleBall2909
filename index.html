@@ -32,6 +32,7 @@
 
     html, body {
       height: 100%;
+      overflow: hidden;
     }
 
     body {
@@ -42,7 +43,6 @@
         radial-gradient(1200px 700px at 18% 10%, rgba(18, 30, 80, 0.65), rgba(0, 0, 0, 0) 60%),
         radial-gradient(1000px 800px at 85% 30%, rgba(12, 16, 60, 0.75), rgba(0, 0, 0, 0) 55%),
         linear-gradient(180deg, var(--night-2), var(--night-1) 55%, var(--night-0));
-      overflow-x: hidden;
     }
 
     /* Background starfield */
@@ -101,11 +101,13 @@
     }
 
     .page {
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      gap: 28px;
+      height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: clamp(10px, 2vh, 24px);
+      gap: clamp(10px, 2vh, 28px);
     }
 
     .letter {
@@ -345,7 +347,10 @@
     /* Riddle Vault */
     .vault {
       width: min(920px, 92vw);
-      padding: clamp(22px, 4.2vw, 44px);
+      max-height: 96vh;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(16px, 3vh, 44px);
       border-radius: var(--radius);
       color: rgba(255, 255, 255, 0.92);
       background:
@@ -380,14 +385,20 @@
     }
 
     .vault__snitchWrap {
-      margin: 18px auto 0;
+      margin: 10px auto 0;
       width: min(760px, 100%);
+      flex-shrink: 1;
+      min-height: 0;
+      display: flex;
+      justify-content: center;
     }
 
     .snitch {
       display: block;
-      width: 100%;
+      width: auto;
+      max-width: 100%;
       height: auto;
+      max-height: clamp(120px, 25vh, 360px);
       filter: drop-shadow(0 20px 46px rgba(0, 0, 0, 0.55));
     }
 
@@ -493,14 +504,17 @@
     }
 
     .vault__prompts {
-      margin: 22px auto 0;
+      margin: 12px auto 0;
       width: min(760px, 100%);
-      display: grid;
-      gap: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      justify-content: space-evenly;
     }
 
     .vault-prompt {
-      padding: 14px 14px;
+      padding: 10px 14px;
       border-radius: 14px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(212, 175, 55, 0.18);
