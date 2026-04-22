@@ -173,7 +173,75 @@
       font-weight: 800;
       letter-spacing: 0.02em;
       line-height: 1.15;
-      font-size: clamp(1.55rem, 3.6vw, 2.55rem);
+      font-size: clamp(1.3rem, 3vw, 2rem);
+    }
+
+    .text-gold {
+      color: #d4af37;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6), 0 0 12px rgba(212, 175, 55, 0.5);
+    }
+
+    .text-small {
+      font-size: 0.65em;
+      opacity: 0.9;
+    }
+
+    .text-medium {
+      font-size: 0.85em;
+      opacity: 0.95;
+    }
+
+    .text-large {
+      font-size: 1.4em;
+      display: inline-block;
+      transform: rotate(-2deg);
+      margin: 0 4px;
+    }
+
+    .text-huge {
+      font-size: 2.6em;
+      line-height: 1;
+      display: block;
+      margin: 12px 0;
+      letter-spacing: 0.05em;
+    }
+
+    .text-tiny {
+      font-size: 0.55em;
+      display: block;
+      margin-top: 24px;
+      opacity: 0.85;
+      letter-spacing: 0.04em;
+    }
+
+    .snitch-o {
+      position: relative;
+      color: #f6e27a;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.6), 0 0 16px rgba(246, 226, 122, 0.8);
+      display: inline-block;
+      transform: scale(1.1);
+      margin: 0 8px;
+    }
+
+    .snitch-o::before,
+    .snitch-o::after {
+      content: "";
+      position: absolute;
+      top: 40%;
+      width: 0.6em;
+      height: 0.25em;
+      border-top: 2px solid rgba(212, 175, 55, 0.9);
+      border-radius: 50% 50% 0 0;
+    }
+
+    .snitch-o::before {
+      right: 85%;
+      transform: translateY(-50%) rotate(-20deg);
+    }
+
+    .snitch-o::after {
+      left: 85%;
+      transform: translateY(-50%) rotate(20deg);
     }
 
     .button-arena {
@@ -1096,7 +1164,14 @@
         <div class="invitationShell__back" aria-hidden="true"></div>
 
         <section class="letter" id="letter" aria-live="polite" hidden>
-          <h1 class="question" id="invitationTitle">Are you a Dementor? Because you completely take my breath away. Be my prommate?</h1>
+          <h1 class="question" id="invitationTitle">
+            <span class="text-small">I'M</span> <span class="text-gold text-large">Seeking</span> <span class="text-small">A</span><br>
+            <span class="text-huge">PR<span class="snitch-o">O</span>M</span>
+            <span class="text-medium">DATE, AND YOU'RE</span><br>
+            <span class="text-small">A</span><br>
+            <span class="text-gold text-large">Keeper</span><br>
+            <span class="text-tiny">Will you be my prom mate?</span>
+          </h1>
 
           <div class="button-arena" id="buttonArena">
             <button class="btn btn--yes" id="yesBtn" type="button">Yes</button>
