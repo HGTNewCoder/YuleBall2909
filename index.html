@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,9 +24,9 @@
       --night-1: #070a14;
       --night-2: #0a1030;
 
-      --parchment-0: #f7eccb;
-      --parchment-1: #f2dfb0;
-      --parchment-2: #e3c98a;
+      --parchment-0: #f4ebd8;
+      --parchment-1: #e8d8bd;
+      --parchment-2: #cfaa70;
 
       --ink: #1c130a;
       --gold-0: #f6e27a;
@@ -35,9 +36,12 @@
       --radius: 18px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    html, body {
+    html,
+    body {
       height: 100%;
       overflow: hidden;
     }
@@ -88,10 +92,13 @@
     }
 
     @keyframes twinkle {
-      0%, 100% {
+
+      0%,
+      100% {
         opacity: var(--from);
         transform: scale(0.85);
       }
+
       50% {
         opacity: var(--to);
         transform: scale(1.25);
@@ -208,10 +215,9 @@
       filter: grayscale(0.05);
     }
 
-    .btn--yes {
+    .btn--yes,
+    .btn--no {
       position: absolute;
-      left: 10px;
-      top: 10px;
       color: rgba(15, 10, 5, 0.92);
       background:
         linear-gradient(180deg, var(--gold-0), var(--gold-1) 55%, var(--gold-2));
@@ -221,20 +227,10 @@
         0 0 22px rgba(212, 175, 55, 0.18);
     }
 
-    .btn--yes:hover {
+    .btn--yes:hover,
+    .btn--no:hover {
       filter: brightness(1.05);
       transform: translateY(-1px);
-    }
-
-    .btn--no {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      color: rgba(255, 255, 255, 0.92);
-      background: linear-gradient(180deg, rgba(25, 28, 44, 0.95), rgba(10, 12, 18, 0.95));
-      box-shadow:
-        0 14px 28px rgba(0, 0, 0, 0.35),
-        0 0 0 1px rgba(212, 175, 55, 0.18) inset;
     }
 
     .message {
@@ -264,12 +260,14 @@
           0 22px 70px rgba(0, 0, 0, 0.55),
           0 0 0 1px rgba(212, 175, 55, 0.14) inset;
       }
+
       45% {
         box-shadow:
           0 26px 80px rgba(0, 0, 0, 0.62),
           0 0 0 1px rgba(212, 175, 55, 0.25) inset,
           0 0 60px rgba(212, 175, 55, 0.20);
       }
+
       100% {
         box-shadow:
           0 22px 70px rgba(0, 0, 0, 0.55),
@@ -298,6 +296,7 @@
         opacity: 0.95;
         transform: translate(-50%, -50%) scale(1);
       }
+
       100% {
         opacity: 0;
         transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.25);
@@ -322,18 +321,16 @@
     @supports (clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)) {
       .burst-star {
         border-radius: 0;
-        clip-path: polygon(
-          50% 0%,
-          61% 35%,
-          98% 35%,
-          68% 57%,
-          79% 91%,
-          50% 70%,
-          21% 91%,
-          32% 57%,
-          2% 35%,
-          39% 35%
-        );
+        clip-path: polygon(50% 0%,
+            61% 35%,
+            98% 35%,
+            68% 57%,
+            79% 91%,
+            50% 70%,
+            21% 91%,
+            32% 57%,
+            2% 35%,
+            39% 35%);
       }
     }
 
@@ -342,9 +339,11 @@
         opacity: 1;
         transform: translate(-50%, -50%) scale(0.25) rotate(0deg);
       }
+
       70% {
         opacity: 1;
       }
+
       100% {
         opacity: 0;
         transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0) rotate(var(--rot));
@@ -410,18 +409,24 @@
     }
 
     @keyframes wingFlapLeft {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: rotate(7deg) translateY(0);
       }
+
       50% {
         transform: rotate(-11deg) translateY(-6px);
       }
     }
 
     @keyframes wingFlapRight {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: rotate(-7deg) translateY(0);
       }
+
       50% {
         transform: rotate(11deg) translateY(-6px);
       }
@@ -659,6 +664,8 @@
       transform-style: preserve-3d;
     }
 
+    .invitationShell__back,
+    .invitationShell__front,
     .invitationShell__flap {
       position: absolute;
       inset: 0;
@@ -670,13 +677,28 @@
       box-shadow:
         0 18px 48px rgba(0, 0, 0, 0.35),
         0 0 0 1px rgba(212, 175, 55, 0.10) inset;
-      transform-origin: top center;
-      transform: rotateX(0deg);
       pointer-events: none;
-      z-index: 2;
     }
 
-    .invitationShell__flap::before {
+    .invitationShell__back {
+      z-index: 0;
+    }
+
+    .invitationShell__front {
+      z-index: 2;
+      clip-path: polygon(0 40%, 50% 65%, 100% 40%, 100% 100%, 0 100%);
+    }
+
+    .invitationShell__flap {
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      z-index: 3;
+      clip-path: polygon(0 0, 100% 0, 50% 55%);
+    }
+
+    .invitationShell__flap::before,
+    .invitationShell__front::before,
+    .invitationShell__back::before {
       content: "";
       position: absolute;
       inset: 12px;
@@ -685,10 +707,38 @@
       opacity: 0.9;
     }
 
+    .wax-seal {
+      position: absolute;
+      bottom: 40%; /* adjusted because flap is now 50% clip path */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 54px;
+      height: 54px;
+      background: radial-gradient(circle at 30% 30%, #a61c1c, #6b0f0f);
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+      border: 1px solid #4a0a0a;
+      z-index: 10;
+      transition: opacity 400ms ease, transform 400ms ease;
+    }
+
+    .wax-seal::after {
+      content: 'H';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #dfb3b3;
+      font-size: 32px;
+      font-weight: 800;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.6), 0 -1px 1px rgba(255,255,255,0.2);
+    }
+
     .invitationModal .letter {
-      transform: translateY(26px) scale(0.98);
+      transform: translateY(120px) scale(0.95);
       opacity: 0;
-      transition: transform 820ms cubic-bezier(0.20, 0.85, 0.22, 1), opacity 420ms ease;
+      transition: transform 1200ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 500ms ease;
       z-index: 1;
     }
 
@@ -703,48 +753,93 @@
 
     .invitationModal.is-open .invitationShell__flap {
       transform: rotateX(-165deg);
-      transition: transform 880ms cubic-bezier(0.20, 0.85, 0.22, 1) 120ms;
+      transition: transform 1000ms cubic-bezier(0.34, 1.56, 0.64, 1) 120ms;
+    }
+
+    .invitationModal.is-open .wax-seal {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.6);
+      transition-delay: 50ms;
     }
 
     .invitationModal.is-open .letter {
       opacity: 1;
       transform: translateY(0) scale(1);
-      transition-delay: 220ms;
+      transition-delay: 480ms; /* wait for flap */
+    }
+
+    /* Falling envelope animation */
+    .invitationModal.is-open.drop-envelope .invitationShell__back {
+      transform: translateY(100vh) rotate(-5deg);
+      opacity: 0;
+      transition: transform 1200ms ease, opacity 800ms ease;
+    }
+
+    .invitationModal.is-open.drop-envelope .invitationShell__front {
+      transform: translateY(100vh) rotate(5deg);
+      opacity: 0;
+      transition: transform 1200ms ease, opacity 800ms ease;
+    }
+
+    .invitationModal.is-open.drop-envelope .invitationShell__flap {
+      transform: translateY(100vh) rotateX(-165deg) rotateZ(5deg);
+      opacity: 0;
+      transition: transform 1200ms ease, opacity 800ms ease;
     }
 
     @media (max-width: 560px) {
       .vault {
         padding: 16px;
       }
+
       .question {
         font-size: 1.5rem;
       }
+
       .vault-prompt {
         padding: 8px 12px;
       }
+
       .vault-prompt__row {
         grid-template-columns: 1fr auto;
         gap: 8px;
       }
+
       .btn--unlock {
         min-width: 80px;
         padding: 8px 12px;
         font-size: 0.85rem;
       }
+
       .vault-prompt__input {
         padding: 8px 10px;
         font-size: 0.9rem;
       }
+
       .vault-prompt__label {
         font-size: 0.85rem;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .star { animation: none; opacity: 0.6; }
-      .spark, .burst-star { animation-duration: 1ms; }
-      .btn { transition: none; }
-      body.celebrate .letter { animation: none; }
+      .star {
+        animation: none;
+        opacity: 0.6;
+      }
+
+      .spark,
+      .burst-star {
+        animation-duration: 1ms;
+      }
+
+      .btn {
+        transition: none;
+      }
+
+      body.celebrate .letter {
+        animation: none;
+      }
+
       .snitch__wing,
       .snitch__half,
       .snitch__lock,
@@ -777,13 +872,7 @@
       <p class="vault__sub">Answer three prompts to unlock the Snitch.</p>
 
       <div class="vault__snitchWrap">
-        <svg
-          class="snitch"
-          id="snitch"
-          viewBox="0 0 700 360"
-          role="img"
-          aria-labelledby="snitchTitle snitchDesc"
-        >
+        <svg class="snitch" id="snitch" viewBox="0 0 700 360" role="img" aria-labelledby="snitchTitle snitchDesc">
           <title id="snitchTitle">Golden Snitch vault</title>
           <desc id="snitchDesc">A closed Golden Snitch secured by three magical locks.</desc>
 
@@ -826,28 +915,14 @@
               <g class="snitch__wingInner">
                 <path
                   d="M 284 178 C 246 142 194 118 138 112 C 88 106 44 122 22 146 C 70 154 112 174 148 202 C 186 232 226 258 264 268 C 214 272 166 288 120 312 C 194 306 256 262 284 178 Z"
-                  fill="url(#snitchWingLeft)"
-                  opacity="0.95"
-                />
+                  fill="url(#snitchWingLeft)" opacity="0.95" />
                 <path
                   d="M 270 184 C 240 164 204 148 168 140 C 126 132 86 138 56 152 C 90 158 122 172 148 190 C 176 210 210 230 244 240 C 216 246 186 258 156 276 C 210 270 252 240 270 184 Z"
-                  fill="rgba(120, 170, 255, 0.12)"
-                  opacity="0.9"
-                />
-                <path
-                  d="M 248 174 C 188 166 126 182 78 214"
-                  fill="none"
-                  stroke="rgba(10, 16, 48, 0.24)"
-                  stroke-width="2.0"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 252 196 C 188 206 132 232 96 260"
-                  fill="none"
-                  stroke="rgba(10, 16, 48, 0.20)"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                />
+                  fill="rgba(120, 170, 255, 0.12)" opacity="0.9" />
+                <path d="M 248 174 C 188 166 126 182 78 214" fill="none" stroke="rgba(10, 16, 48, 0.24)"
+                  stroke-width="2.0" stroke-linecap="round" />
+                <path d="M 252 196 C 188 206 132 232 96 260" fill="none" stroke="rgba(10, 16, 48, 0.20)"
+                  stroke-width="1.8" stroke-linecap="round" />
               </g>
             </g>
 
@@ -855,205 +930,109 @@
               <g class="snitch__wingInner">
                 <path
                   d="M 416 178 C 454 142 506 118 562 112 C 612 106 656 122 678 146 C 630 154 588 174 552 202 C 514 232 474 258 436 268 C 486 272 534 288 580 312 C 506 306 444 262 416 178 Z"
-                  fill="url(#snitchWingRight)"
-                  opacity="0.95"
-                />
+                  fill="url(#snitchWingRight)" opacity="0.95" />
                 <path
                   d="M 430 184 C 460 164 496 148 532 140 C 574 132 614 138 644 152 C 610 158 578 172 552 190 C 524 210 490 230 456 240 C 484 246 514 258 544 276 C 490 270 448 240 430 184 Z"
-                  fill="rgba(120, 170, 255, 0.12)"
-                  opacity="0.9"
-                />
-                <path
-                  d="M 452 174 C 512 166 574 182 622 214"
-                  fill="none"
-                  stroke="rgba(10, 16, 48, 0.24)"
-                  stroke-width="2.0"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 448 196 C 512 206 568 232 604 260"
-                  fill="none"
-                  stroke="rgba(10, 16, 48, 0.20)"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                />
+                  fill="rgba(120, 170, 255, 0.12)" opacity="0.9" />
+                <path d="M 452 174 C 512 166 574 182 622 214" fill="none" stroke="rgba(10, 16, 48, 0.24)"
+                  stroke-width="2.0" stroke-linecap="round" />
+                <path d="M 448 196 C 512 206 568 232 604 260" fill="none" stroke="rgba(10, 16, 48, 0.20)"
+                  stroke-width="1.8" stroke-linecap="round" />
               </g>
             </g>
           </g>
 
           <g>
             <g class="snitch__half snitch__half--top">
-              <path
-                d="M 264 180 A 86 86 0 0 0 436 180 L 264 180 Z"
-                fill="url(#snitchGold)"
-                stroke="rgba(0, 0, 0, 0.24)"
-                stroke-width="1.15"
-              />
+              <path d="M 264 180 A 86 86 0 0 0 436 180 L 264 180 Z" fill="url(#snitchGold)" stroke="rgba(0, 0, 0, 0.24)"
+                stroke-width="1.15" />
               <circle cx="326" cy="148" r="26" fill="rgba(255, 255, 255, 0.18)" />
               <circle cx="315" cy="138" r="10" fill="rgba(255, 255, 255, 0.16)" />
             </g>
 
             <g class="snitch__half snitch__half--bottom">
-              <path
-                d="M 264 180 A 86 86 0 0 1 436 180 L 264 180 Z"
-                fill="url(#snitchGold)"
-                stroke="rgba(0, 0, 0, 0.26)"
-                stroke-width="1.15"
-              />
+              <path d="M 264 180 A 86 86 0 0 1 436 180 L 264 180 Z" fill="url(#snitchGold)" stroke="rgba(0, 0, 0, 0.26)"
+                stroke-width="1.15" />
               <circle cx="392" cy="230" r="52" fill="rgba(0, 0, 0, 0.06)" />
-              <path
-                d="M 286 214 C 322 234 378 234 414 214"
-                fill="none"
-                stroke="rgba(15, 10, 5, 0.22)"
-                stroke-width="2.2"
-                stroke-linecap="round"
-              />
+              <path d="M 286 214 C 322 234 378 234 414 214" fill="none" stroke="rgba(15, 10, 5, 0.22)"
+                stroke-width="2.2" stroke-linecap="round" />
             </g>
             <circle class="snitch__core" cx="350" cy="180" r="18" fill="rgba(246, 226, 122, 0.30)" />
           </g>
 
           <g>
-            <g
-              class="snitch__lock"
-              id="snitchLock1"
-              style="--unlock-dx: -8px; --unlock-dy: -10px; --unlock-rot: -8deg;"
-            >
-              <circle cx="350" cy="138" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)" stroke-width="1.2" />
-              <circle cx="350" cy="138" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2" opacity="0.8" />
+            <g class="snitch__lock" id="snitchLock1"
+              style="--unlock-dx: -8px; --unlock-dy: -10px; --unlock-rot: -8deg;">
+              <circle cx="350" cy="138" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)"
+                stroke-width="1.2" />
+              <circle cx="350" cy="138" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2"
+                opacity="0.8" />
 
               <g class="snitch__lockIcon snitch__lockIcon--locked" transform="translate(350 138)">
                 <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
-                <path
-                  d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
+                <path d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0" fill="none" stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2" stroke-linecap="round" />
                 <circle cx="0" cy="5" r="1.6" fill="rgba(255, 255, 255, 0.22)" />
               </g>
 
               <g class="snitch__lockIcon snitch__lockIcon--unlocked" transform="translate(350 138)">
                 <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
-                <path
-                  d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
+                <path d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2" fill="none" stroke="rgba(15, 10, 5, 0.76)" stroke-width="2"
+                  stroke-linecap="round" />
+                <path d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0" fill="none" stroke="rgba(15, 10, 5, 0.76)" stroke-width="2"
+                  stroke-linecap="round" />
                 <circle cx="0" cy="5" r="1.6" fill="rgba(255, 255, 255, 0.22)" />
               </g>
             </g>
 
-            <g
-              class="snitch__lock"
-              id="snitchLock2"
-              style="--unlock-dx: -12px; --unlock-dy: 4px; --unlock-rot: -10deg;"
-            >
-              <circle cx="312" cy="198" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)" stroke-width="1.2" />
-              <circle cx="312" cy="198" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2" opacity="0.8" />
+            <g class="snitch__lock" id="snitchLock2"
+              style="--unlock-dx: -12px; --unlock-dy: 4px; --unlock-rot: -10deg;">
+              <circle cx="312" cy="198" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)"
+                stroke-width="1.2" />
+              <circle cx="312" cy="198" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2"
+                opacity="0.8" />
 
               <g class="snitch__lockIcon snitch__lockIcon--locked" transform="translate(312 198)">
                 <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
-                <path
-                  d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M -5 7 H 5"
-                  fill="none"
-                  stroke="rgba(255, 255, 255, 0.18)"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                />
+                <path d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0" fill="none" stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2" stroke-linecap="round" />
+                <path d="M -5 7 H 5" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.6"
+                  stroke-linecap="round" />
               </g>
 
               <g class="snitch__lockIcon snitch__lockIcon--unlocked" transform="translate(312 198)">
                 <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
-                <path
-                  d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M -5 7 H 5"
-                  fill="none"
-                  stroke="rgba(255, 255, 255, 0.18)"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                />
+                <path d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2" fill="none" stroke="rgba(15, 10, 5, 0.76)" stroke-width="2"
+                  stroke-linecap="round" />
+                <path d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0" fill="none" stroke="rgba(15, 10, 5, 0.76)" stroke-width="2"
+                  stroke-linecap="round" />
+                <path d="M -5 7 H 5" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.6"
+                  stroke-linecap="round" />
               </g>
             </g>
 
-            <g
-              class="snitch__lock"
-              id="snitchLock3"
-              style="--unlock-dx: 12px; --unlock-dy: 4px; --unlock-rot: 10deg;"
-            >
-              <circle cx="388" cy="198" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)" stroke-width="1.2" />
-              <circle cx="388" cy="198" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2" opacity="0.8" />
+            <g class="snitch__lock" id="snitchLock3" style="--unlock-dx: 12px; --unlock-dy: 4px; --unlock-rot: 10deg;">
+              <circle cx="388" cy="198" r="18" fill="url(#snitchLockPlate)" stroke="rgba(0, 0, 0, 0.35)"
+                stroke-width="1.2" />
+              <circle cx="388" cy="198" r="18" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.2"
+                opacity="0.8" />
 
               <g class="snitch__lockIcon snitch__lockIcon--locked" transform="translate(388 198)">
                 <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
-                <path
-                  d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M -5 7 H 5"
-                  fill="none"
-                  stroke="rgba(255, 255, 255, 0.18)"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                />
+                <path d="M -4 0 V -3.5 A 4 4 0 0 1 4 -3.5 V 0" fill="none" stroke="rgba(15, 10, 5, 0.76)"
+                  stroke-width="2" stroke-linecap="round" />
+                <path d="M -5 7 H 5" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.6"
+                  stroke-linecap="round" />
               </g>
 
               <g class="snitch__lockIcon snitch__lockIcon--unlocked" transform="translate(388 198)">
                 <rect x="-7" y="0" width="14" height="10" rx="2" fill="rgba(15, 10, 5, 0.66)" />
-                <path
-                  d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0"
-                  fill="none"
-                  stroke="rgba(15, 10, 5, 0.76)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M -5 7 H 5"
-                  fill="none"
-                  stroke="rgba(255, 255, 255, 0.18)"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                />
+                <path d="M -4 0 V -3.2 A 4 4 0 0 1 4 -3.2" fill="none" stroke="rgba(15, 10, 5, 0.76)" stroke-width="2"
+                  stroke-linecap="round" />
+                <path d="M 4 -3.2 C 6 -2.7 6.6 -1.2 6.6 0" fill="none" stroke="rgba(15, 10, 5, 0.76)" stroke-width="2"
+                  stroke-linecap="round" />
+                <path d="M -5 7 H 5" fill="none" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.6"
+                  stroke-linecap="round" />
               </g>
             </g>
           </g>
@@ -1109,22 +1088,30 @@
     </section>
   </main>
 
-  <div class="invitationModal" id="invitationModal" role="dialog" aria-modal="true" aria-labelledby="invitationTitle" hidden>
+  <div class="invitationModal" id="invitationModal" role="dialog" aria-modal="true" aria-labelledby="invitationTitle"
+    hidden>
     <div class="invitationModal__backdrop" aria-hidden="true"></div>
     <div class="invitationModal__panel" role="document">
-      <div class="invitationShell">
-        <div class="invitationShell__flap" aria-hidden="true"></div>
+      <div class="invitationShell" id="invitationShell">
+        <div class="invitationShell__back" aria-hidden="true"></div>
 
         <section class="letter" id="letter" aria-live="polite" hidden>
-          <h1 class="question" id="invitationTitle">Will you go to Prom with me?</h1>
+          <h1 class="question" id="invitationTitle">Are you a Dementor? Because you completely take my breath away. Yule
+            Ball?</h1>
 
           <div class="button-arena" id="buttonArena">
             <button class="btn btn--yes" id="yesBtn" type="button">Yes</button>
             <button class="btn btn--no" id="noBtn" type="button">No</button>
           </div>
 
-          <p class="message" id="successMessage" hidden>Excellent. It will be an unforgettable night.</p>
+          <p class="message" id="successMessage" hidden>One hundred points to Gryffindor! I'm looking forward to
+            spending time with you.</p>
         </section>
+
+        <div class="invitationShell__front" aria-hidden="true"></div>
+        <div class="invitationShell__flap" aria-hidden="true">
+          <div class="wax-seal"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1181,9 +1168,9 @@
       // - Answers are case-insensitive.
       // - Optional: allow multiple acceptable answers using "|" (example: "hermione|hermione granger").
       const VAULT_PROMPTS = [
-        { question: '', answer: '1' },
-        { question: '', answer: '2' },
-        { question: '', answer: '3' },
+        { question: 'What specific species of bird is Harry\'s white owl?', answer: 'Snowy Owl|Owl' },
+        { question: 'What is the actual name of Harry\'s pet?', answer: 'Hedwig' },
+        { question: 'Who gave Harry\'s pet for his eleventh birthday?', answer: 'Rubeus Hagrid|Hagrid' },
       ];
 
       const unlocked = [false, false, false];
@@ -1249,7 +1236,7 @@
           });
 
           setTimeout(() => {
-            ctx.close().catch(() => {});
+            ctx.close().catch(() => { });
           }, 900);
         } catch {
           // ignore audio failures
@@ -1263,10 +1250,16 @@
         letter.hidden = false;
         invitationModal.hidden = false;
         invitationModal.classList.remove('is-open');
+        invitationModal.classList.remove('drop-envelope');
         document.body.classList.add('modal-open');
 
         requestAnimationFrame(() => {
           invitationModal.classList.add('is-open');
+          
+          setTimeout(() => {
+            invitationModal.classList.add('drop-envelope');
+          }, 800);
+
           requestAnimationFrame(placeInitialNoButton);
           try {
             yesBtn.focus({ preventScroll: true });
@@ -1470,15 +1463,19 @@
         if (!arena.getClientRects().length) return;
 
         const arenaRect = arena.getBoundingClientRect();
-        const btnRect = noBtn.getBoundingClientRect();
-        const padding = 10;
+        const noRect = noBtn.getBoundingClientRect();
+        const yesRect = yesBtn.getBoundingClientRect();
 
-        const x = Math.max(padding, arenaRect.width - btnRect.width - padding);
-        const y = padding;
+        const gap = 40;
+        const totalWidth = yesRect.width + gap + noRect.width;
+        const startX = (arenaRect.width - totalWidth) / 2;
+
+        yesBtn.style.left = `${startX}px`;
+        yesBtn.style.top = `${(arenaRect.height - yesRect.height) / 2}px`;
 
         noBtn.style.right = 'auto';
-        noBtn.style.left = `${x}px`;
-        noBtn.style.top = `${y}px`;
+        noBtn.style.left = `${startX + yesRect.width + gap}px`;
+        noBtn.style.top = `${(arenaRect.height - noRect.height) / 2}px`;
       }
 
       requestAnimationFrame(placeInitialNoButton);
@@ -1555,4 +1552,5 @@
     })();
   </script>
 </body>
+
 </html>
