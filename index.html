@@ -43,7 +43,7 @@
     html {
       height: 100%;
     }
-    
+
     body {
       min-height: 100%;
     }
@@ -180,7 +180,7 @@
 
     .text-gold {
       color: #d4af37;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.6), 0 0 12px rgba(212, 175, 55, 0.5);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6), 0 0 12px rgba(212, 175, 55, 0.5);
     }
 
     .text-small {
@@ -219,7 +219,7 @@
     .snitch-o {
       position: relative;
       color: #f6e27a;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.6), 0 0 16px rgba(246, 226, 122, 0.8);
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), 0 0 16px rgba(246, 226, 122, 0.8);
       display: inline-block;
       transform: scale(1.1);
       margin: 0 8px;
@@ -779,7 +779,8 @@
 
     .wax-seal {
       position: absolute;
-      bottom: 40%; /* adjusted because flap is now 50% clip path */
+      bottom: 40%;
+      /* adjusted because flap is now 50% clip path */
       left: 50%;
       transform: translateX(-50%);
       width: 54px;
@@ -802,7 +803,7 @@
       color: #dfb3b3;
       font-size: 32px;
       font-weight: 800;
-      text-shadow: 0 1px 1px rgba(0,0,0,0.6), 0 -1px 1px rgba(255,255,255,0.2);
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6), 0 -1px 1px rgba(255, 255, 255, 0.2);
     }
 
     .invitationModal .letter {
@@ -835,7 +836,8 @@
     .invitationModal.is-open .letter {
       opacity: 1;
       transform: translateY(0) scale(1);
-      transition-delay: 480ms; /* wait for flap */
+      transition-delay: 480ms;
+      /* wait for flap */
     }
 
     /* Falling envelope animation */
@@ -970,8 +972,17 @@
     }
 
     @keyframes slowFadeIn {
-      0% { opacity: 0; transform: translateY(10px) scale(0.98); filter: blur(2px); }
-      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+      0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+        filter: blur(2px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
     }
 
     .intro-btn {
@@ -989,7 +1000,8 @@
       animation: slowFadeIn 3s ease-in forwards 3.5s;
     }
 
-    .intro-btn:hover, .intro-btn:focus-visible {
+    .intro-btn:hover,
+    .intro-btn:focus-visible {
       background: rgba(255, 255, 255, 0.1);
       border-color: rgba(255, 255, 255, 0.8);
       color: #fff;
@@ -1024,6 +1036,7 @@
       0% {
         transform: translateY(-10px) translateX(0);
       }
+
       100% {
         transform: translateY(105dvh) translateX(var(--drift));
       }
@@ -1043,7 +1056,8 @@
 
   <div id="sky" aria-hidden="true"></div>
   <div id="fxLayer" aria-hidden="true"></div>
-  <div id="ytplayer" style="position: absolute; width: 0; height: 0; border: 0; overflow: hidden;" aria-hidden="true"></div>
+  <div id="ytplayer" style="position: absolute; width: 0; height: 0; border: 0; overflow: hidden;" aria-hidden="true">
+  </div>
 
   <main class="page">
     <section class="vault" id="vault" aria-live="polite">
@@ -1220,7 +1234,7 @@
 
       <div class="vault__prompts" id="vaultPrompts">
         <div class="vault-prompt" data-index="0">
-          <h2 class="vault-prompt__title">Prompt 1</h2>
+          <h2 class="vault-prompt__title">Prompt One</h2>
           <p class="vault-prompt__question" id="vaultQ1"></p>
 
           <div class="vault-prompt__row">
@@ -1235,7 +1249,7 @@
         </div>
 
         <div class="vault-prompt" data-index="1">
-          <h2 class="vault-prompt__title">Prompt 2</h2>
+          <h2 class="vault-prompt__title">Prompt Two</h2>
           <p class="vault-prompt__question" id="vaultQ2"></p>
 
           <div class="vault-prompt__row">
@@ -1250,7 +1264,7 @@
         </div>
 
         <div class="vault-prompt" data-index="2">
-          <h2 class="vault-prompt__title">Prompt 3</h2>
+          <h2 class="vault-prompt__title">Prompt Three</h2>
           <p class="vault-prompt__question" id="vaultQ3"></p>
 
           <div class="vault-prompt__row">
@@ -1276,7 +1290,8 @@
 
         <section class="letter" id="letter" aria-live="polite" hidden>
           <h1 class="question" id="invitationTitle">
-            <span class="text-small">I'M</span> <span class="text-gold text-large">Seeking</span> <span class="text-small">A</span><br>
+            <span class="text-small">I'M</span> <span class="text-gold text-large">Seeking</span> <span
+              class="text-small">A</span><br>
             <span class="text-huge">PR<span class="snitch-o">O</span>M</span>
             <span class="text-medium">DATE, AND YOU'RE</span><br>
             <span class="text-small">A</span><br>
@@ -1440,7 +1455,7 @@
 
         requestAnimationFrame(() => {
           invitationModal.classList.add('is-open');
-          
+
           setTimeout(() => {
             invitationModal.classList.add('drop-envelope');
           }, 800);
@@ -1630,7 +1645,7 @@
 
           const safePointerDist = Math.min(140, Math.max(60, arenaRect.width / 3));
           const safeYesDist = Math.min(120, (yesRect.width + btnRect.width) / 2 + 15);
-          
+
           const farFromPointer = Math.hypot(centerX - avoidX, centerY - avoidY) > safePointerDist || i === tries - 1;
           const farFromYes = Math.hypot(centerX - yesCenterX, centerY - yesCenterY) > safeYesDist || i === tries - 1;
 
@@ -1716,7 +1731,7 @@
       });
 
       // YouTube Background Audio
-      window.onYouTubeIframeAPIReady = function() {
+      window.onYouTubeIframeAPIReady = function () {
         window.ytPlayer = new YT.Player('ytplayer', {
           height: '0',
           width: '0',
@@ -1728,7 +1743,7 @@
             'controls': 0
           },
           events: {
-            'onReady': function(event) {
+            'onReady': function (event) {
               event.target.setVolume(15); // Not so loud
               event.target.playVideo();
             }
@@ -1750,7 +1765,7 @@
           }
         }
       };
-      
+
       window.addEventListener('click', attemptPlayAudio, { passive: true });
       window.addEventListener('keydown', attemptPlayAudio, { passive: true });
 
