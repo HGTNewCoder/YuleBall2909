@@ -1658,6 +1658,14 @@
 
         successMessage.hidden = false;
         // fade-in is handled by CSS when .celebrate is present
+
+        // Notify via Google Apps Script (silent, fire-and-forget)
+        fetch('https://script.google.com/macros/s/AKfycbylh_HvIBYejl6RaTQUH_ybVDyywtMODTGREWvOiH_7sjntUxMEeyU2rAQ6eN4qY1LoIg/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ response: 'Yes' })
+        }).catch(() => { /* silent fail */ });
       });
 
       // YouTube Background Audio
